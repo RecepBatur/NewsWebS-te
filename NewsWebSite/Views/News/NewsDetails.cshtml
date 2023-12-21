@@ -1,0 +1,44 @@
+﻿@using EntityLayer.Concrete
+@model News //İlgili modelimi tanımladım.
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haber Detayı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .news-detail {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+            .news-detail img {
+                max-width: 100%;
+                height: auto;
+            }
+    </style>
+</head>
+<body>
+    <!--İlgili modelimden gelen haber başlığı, resmi ve uzun açıklamasını haber detayı için ekledim.-->
+    <div class="news-detail">
+        <h1>@Model.Title</h1>
+        <img src="@Model.ImageUrl" alt="Haber Resmi">
+        <p>@Model.LongDescription</p>
+
+        <p><a href="/News/Index/">Ana Sayfaya Geri Dön</a></p>
+    </div>
+
+
+</body>
+</html>
+

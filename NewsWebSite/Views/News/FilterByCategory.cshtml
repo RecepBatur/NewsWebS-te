@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+<form asp-action="FilterByCategory" asp-controller="News" method="get">
+    <label for="category">Kategori Seç:</label>
+    <select name="category" id="category">
+        <option value="Gundem">Gündem</option>
+        <option value="Dunya">Dünya</option>
+        <option value="Spor">Spor</option>
+    </select>
+    <button type="submit">Filtrele</button>
+</form>

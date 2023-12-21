@@ -1,0 +1,84 @@
+﻿<!--Sayfalama işlemi çin gerekli kütüphaneler. Bu kütüphaneler sayfalama işlemi yapmamızı sağlıyor.-->
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<EntityLayer.Concrete.News> //IPagedList arayüzü ile sayfalama yapılacak olan modeli belirttim.
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haber Sitesi</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .news-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .news-item {
+            flex-basis: calc(15% - 10px);
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+            .news-item img {
+                max-width: 100%;
+                height: auto;
+            }
+    </style>
+</head>
+<body>
+    <div>
+        <!--Bu form haberleri ilgili kategoriye göre filtrelemek için kullanıcının seçtiği kategoriyi gönderiyor.-->
+        <form asp-action="FilterByCategory" asp-controller="News" method="get">
+            <!--asp-action form gönderildiğinde çalışacak olan işlemi action belirtiyor. FilterByCategory action'ı çalışıyor. asp-controller'da burada çalışacak News controller belirtiliyor. -->
+            <label for="category">Kategori Seç:</label>
+            <select name="category" id="category">
+                <option value="Gundem">Gündem</option>
+                <option value="Dunya">Dünya</option>
+                <option value="Spor">Spor</option>
+            </select>
+            <button type="submit">Filtrele</button>
+        </form>
+
+        <!--Haberleri belirli bir kelimeye göre arayıp getirmesi için tasarlanan form.-->
+        <form asp-action="SearchByKeyword" asp-controller="News" method="get">
+            <label for="keyword">Anahtar Kelime Ara:</label>
+            <input type="text" name="keyword" id="keyword">
+            <button type="submit">Ara</button>
+        </form>
+    </div>
+
+    <div class="news-container">
+        <!--foreach ile ilgili modelimdeki member'larımı getirip aşağıda haber resmi, başlığı ve kısa açıklamasını ekliyorum. Listeleme işlemini gerçekleştiriyorum ön yüz tarafında.-->
+        @foreach (var item in Model)
+        {
+            <div class="news-item">
+                <img src="@item.ImageUrl" alt="Haber Resmi 1">
+                <h2>@item.Title</h2>
+                <p>@item.ShortDescription</p>
+                <p><a href="/News/NewsDetails/@item.Id">Devamı</a></p> <!--Haberin devamı için ilgili habere göre gerekli url'i verip id'ye göre haberin detayına gidiyor.-->
+            </div>
+        }
+    </div>
+
+    <!--PagedListPager sayfa numaralandırılmayı oluşturmak için kullanılıyor. IPagedList sayfalanacak olan modeli belirtiyor. -->
+    <!--page => Url.Action("Index", new { page } her sayfa numarasına tıklandığında ındex'e yönlendiriyor bizi.-->
+    <div>
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page })) 
+    </div>
+</body>
+</html>
